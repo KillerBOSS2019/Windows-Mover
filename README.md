@@ -14,4 +14,4 @@
 - Able to Display if Current Window is active or not returns True or False
 
 ## Installation
-This Only Works with Windows PC to install this just download Window-Mover.tpp and Import your done!
+This Only Works with Windows PC to install this just download in [Release](https://github.com/KillerBOSS2019/Windows-Mover/releases) and Import your done!
