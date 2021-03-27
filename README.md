@@ -1,9 +1,14 @@
-# Windows-Mover
-As the name says it moves window you want
-
-# How to use it
-Download & Install ONLY WORKS ON WINDOWS 10 PCs
-go to `%appdata%\TouchPortal\plugins\Windows-Mover` after you installed
-in there there should have a Profile folder and inside has a exe run that exe
-and select the Program that you wanted and click Save Make sure to save it in the Profile folder
-or else the Plugin will not find it
+## Features
+- Able to move a Window to one of 4 corners like Top Left, Top Right, Button Left etc...
+- Able to  Hold a button to move a Window X or -X same goes with Window Pos Y
+- Able to Resize a Window by what ever value you enter
+- Able to Increase Width, Height value (onHold) or on press
+- Able to Maximize, Minimize, Restore, Focus, and Close
+- Able to save current Window X,Y and Width, Height and Load them later
+# States
+- Able to Display Current ActiveWindow Return the Active Window Title
+- Able to show Current Active Window X and Y
+- Able to Show Current Active Window Width and Height
+- Able to Display If Current Window is Maximized
+- Able to Display if Current Window is minimized
+- Able to Display if Current Window is active or not returns True or False
