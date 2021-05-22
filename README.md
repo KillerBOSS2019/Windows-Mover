@@ -1,5 +1,5 @@
-[![Github All Releases](https://img.shields.io/github/downloads/KillerBOSS2019/Windows-Mover/total.svg)](https://github.com/KillerBOSS2019/Windows-Mover/releases)
-[![LICENSE](https://img.shields.io/github/license/KillerBOSS2019/Windows-Mover?style=for-the-badge)]()
+[![Github All Releases](https://img.shields.io/github/downloads/KillerBOSS2019/Windows-Mover/total.svg?style=for-the-badge)](https://github.com/KillerBOSS2019/Windows-Mover/releases)
+[![LICENSE](https://img.shields.io/github/license/KillerBOSS2019/Windows-Mover?style=for-the-badge)](https://github.com/KillerBOSS2019/Windows-Mover/blob/main/LICENSE)
 
 
 ## Features
