@@ -1,19 +1,27 @@
+import subprocess
 import pygetwindow as gw
 from screeninfo import get_monitors
 import TouchPortalAPI
 from TouchPortalAPI import TYPES
-import threading
 import sys
-from ctypes import wintypes
+from ctypes import windll, wintypes
 import win32gui
 import win32api
 import ctypes
 from collections import namedtuple
 import pywinauto
 from time import sleep
+from ctypes.wintypes import tagPOINT
+from time import sleep
+from threading import Thread
 
 user32 = ctypes.WinDLL('user32')
 WindowInfo = namedtuple('WindowInfo', 'pid title')
+MonitorMode = {
+    "MONITOR_DEFAULTTONULL": 0,
+    "MONITOR_DEFAULTTOPRIMARY": 1,
+    "MONITOR_DEFAULTTONEAREST": 2
+}
 WNDENUMPROC = ctypes.WINFUNCTYPE(
     wintypes.BOOL,
     wintypes.HWND,    
@@ -33,19 +41,29 @@ def list_windows():
     user32.EnumWindows(enum_proc, 0)
     return list(set(sorted(OptionList)))
 
+def getMonitorFriendlyName(): # Not sure how to use this correctly bc theres no way for me to verify which is which example \\\\.\\DISPLAY0 
+    systemencoding = windll.kernel32.GetConsoleOutputCP()
+    systemencoding = f"cp{systemencoding}"
+
+    cmd = "$Monitors = Get-WmiObject WmiMonitorID -Namespace root\wmi; ForEach ($Monitor in $Monitors) { [System.Text.Encoding]::ASCII.GetString($Monitor.UserFriendlyName) }"
+    result = subprocess.Popen(["powershell", "-Command", cmd],stdout=subprocess.PIPE, shell=True).communicate()[0]
+    return [monitorname.replace("\x00", "") for monitorname in result.decode().strip().split("\r\n")]
+
 def get_desktop():
-	display = []
-	monitor = get_monitors()
-	for x in range(len(monitor)):
-	    display.append({f"Display-{x}": {"width": monitor[x].width, "height": monitor[x].height, "x": monitor[x].x, "y": monitor[x].y}})
-	return display
-    
+    display = []
+    monitor = get_monitors()
+    #monitorName = getMonitorFriendlyName()[::-1]
+    for x in range(len(monitor)):
+        display.append({f"Display-{x}": {"width": monitor[x].width, "height": monitor[x].height, "x": monitor[x].x, "y": monitor[x].y}})
+    return display
+
 def Move_Window(Title, Display, Where, resize=False):
     try:
         Window = gw.getWindowsWithTitle(Title)[0]
     except IndexError:
         return
     Monitor = get_desktop()
+    print(Monitor)
     Indexnum = []
     for x in Monitor:
         Indexnum.append(list(x.keys())[0])
@@ -56,7 +74,9 @@ def Move_Window(Title, Display, Where, resize=False):
             print('No Perm')
     if Display in Indexnum:
         indexnum = Indexnum.index(Display)
-        monitor_area = win32api.GetMonitorInfo(user32.MonitorFromPoint(Monitor[indexnum][Display]['x'],Monitor[indexnum][Display]['y']))
+        point = tagPOINT(Monitor[indexnum][Display]['x'],Monitor[indexnum][Display]['y'])
+        monitor_area = win32api.GetMonitorInfo(user32.MonitorFromPoint(point, MonitorMode.get("MONITOR_DEFAULTTONEAREST")))
+        print(monitor_area)
         width = abs(monitor_area["Work"][2]-monitor_area["Work"][0])
         height = abs(monitor_area["Work"][3]-monitor_area["Work"][1])
         print(monitor_area)
@@ -221,25 +241,32 @@ def CustomAction(Title, x, y, width, hight):
 TPClient = TouchPortalAPI.Client('WindowMover')
 global running
 running = False
+runOnce = False
 
-old_monitor = []
-old_window_list = []
 def stateUpdate():
-    global old_monitor, old_window_list, Timer
-    Timer = threading.Timer(0.25, stateUpdate)
-    Timer.start()
-    if running:
-        monitor = []
-        for each in get_desktop():
-            monitor.append(list(each.keys())[0])
-        if monitor != old_monitor:
+    global runOnce
+    monitor = []
+
+    if not runOnce:
+        print("running once")
+        TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays", [])
+        TPClient.choiceUpdate('KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays', [])
+
+        TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.customMove.Window", [])
+        runOnce = True
+
+    while running:
+        monitor = [list(each.keys())[0] for each in get_desktop()]
+
+        if TPClient.choiceUpdateList.get("KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays") != monitor:
             TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays", monitor)
             TPClient.choiceUpdate('KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays', monitor)
             print('updating Display List', monitor)
-            old_monitor = monitor
-        if old_window_list != list_windows():
-            TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.customMove.Window", list_windows())
-            old_window_list = list_windows()
+
+        if TPClient.choiceUpdateList.get("KillerBOSS.TP.Plugins.WindowMover.customMove.Window") != (processWindow := list_windows()):
+            TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.customMove.Window", processWindow)
+            print("Updating process list")
+
         try:
             currentFocusedWindow = gw.getActiveWindowTitle()
             TPClient.stateUpdate('KillerBOSS.TP.Plugins.WindowMover.states.ActiveWindow', currentFocusedWindow)
@@ -276,12 +303,11 @@ def stateUpdate():
         ])
         except (IndexError,AttributeError,ConnectionResetError):
             pass
-    else:
-        Timer.cancel()
-stateUpdate()
+
+        sleep(0.2) # add delay
 
 @TPClient.on(TYPES.onAction)
-def ManageAction(client, data):
+def ManageAction(data):
     if data['actionId'] == "KillerBOSS.TP.Plugins.WindowMover.Windowpresets":
         if data['data'][1]['value'] is not '':
             Move_Window(data['data'][1]['value'], data['data'][2]['value'], data['data'][0]['value'],data['data'][3]['value'])
@@ -306,9 +332,6 @@ def ManageAction(client, data):
                 MovebyXY(data['data'][0]['value'], -int(data['data'][1]['value']), -int(data['data'][2]['value']))
     if data['actionId'] == "KillerBOSS.TP.Plugins.WindowMover.customMove":
         if data['data'][0]['value'] != '' and data['data'][1]['value'] != '' and data['data'][2]['value'] != '' and data['data'][3]['value'] != '' and data['data'][4]['value'] != '':
-            #Window = gw.getWindowsWithTitle(data['data'][0]['value'])[0]
-            #print(Window)
-            #Window.moveTo(int(data['data'][1]['value']),int(data['data'][2]['value']))
             CustomAction(data['data'][0]['value'],data['data'][1]['value'],data['data'][2]['value'],data['data'][3]['value'],data['data'][4]['value'])
     if data['actionId'] == "KillerBOSS.TP.Plugins.WindowMover.Advanced.MoveByXandY":
         if data['data'][0]['value'] is not "" and data['data'][3]['value'] == 'Increase':
@@ -334,8 +357,9 @@ def ManageAction(client, data):
     if data['actionId'] == "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced":
         if data['data'][1]['value'] is not '':
             SysAction(data['data'][1]['value'], data['data'][0]['value'])
-@TPClient.on(TouchPortalAPI.TYPES.onListChange)
-def listChange(client,data):
+
+@TPClient.on(TYPES.onListChange)
+def listChange(data):
     if data['listId'] == "KillerBOSS.TP.Plugins.WindowMover.customMove.Window":
         try:
             findwindow = win32gui.FindWindow(None,data['value'])
@@ -348,7 +372,7 @@ def listChange(client,data):
         TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.customMove.height", [str(rect[3]-rect[1])])
 
 @TPClient.on(TYPES.onHold_down)
-def holdAction(client,data):
+def holdAction(data):
     while True:
         if TPClient.isActionBeingHeld('KillerBOSS.TP.Plugins.WindowMover.MoveByXandY'):
             if data['data'][3]['value'] == "Increase":
@@ -382,26 +406,24 @@ def holdAction(client,data):
         else:
             break
 
-@TPClient.on('info')
-def Onconnect(client, data):
+@TPClient.on(TYPES.onConnect)
+def Onconnect(data):
     global running
     running = True
     TPClient.settingUpdate("Version", "2.1")
     TPClient.settingUpdate("Is Running","True")
-    stateUpdate()
+    Thread(target=stateUpdate).start()
     print(data)
 
-@TPClient.on('closePlugin')
-def Shutdown(client, data):
+@TPClient.on(TYPES.onShutdown)
+def Shutdown(data):
     global running
-    if data['type'] == "closePlugin":
-        try:
-            TPClient.settingUpdate("Is Running","False")
-        except:
-            pass
-        TPClient.disconnect()
-        running = False
-        Timer.cancel()
-        sys.exit()
+    try:
+        TPClient.settingUpdate("Is Running","False")
+    except:
+        pass
+    TPClient.disconnect()
+    running = False
+    sys.exit()
 
 TPClient.connect()
