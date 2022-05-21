@@ -22,11 +22,20 @@ MonitorMode = {
     "MONITOR_DEFAULTTOPRIMARY": 1,
     "MONITOR_DEFAULTTONEAREST": 2
 }
+
 WNDENUMPROC = ctypes.WINFUNCTYPE(
     wintypes.BOOL,
     wintypes.HWND,    
     wintypes.LPARAM
 )
+
+processBlocklist = [
+    "PopupHost",
+    "NVIDIA GeForce Overlay",
+    "NVIDIA GPU Activity\n",
+    "Windows Input Experience"
+]
+
 def list_windows():
     OptionList = []
     @WNDENUMPROC
@@ -39,7 +48,8 @@ def list_windows():
                 OptionList.append(title.value)
         return True
     user32.EnumWindows(enum_proc, 0)
-    return list(set(sorted(OptionList)))
+    ProcessList = list(set(sorted(OptionList)))
+    return [process for process in ProcessList if not process in processBlocklist]
 
 def getMonitorFriendlyName(): # Not sure how to use this correctly bc theres no way for me to verify which is which example \\\\.\\DISPLAY0 
     systemencoding = windll.kernel32.GetConsoleOutputCP()
@@ -245,7 +255,6 @@ runOnce = False
 
 def stateUpdate():
     global runOnce
-    monitor = []
 
     if not runOnce:
         print("running once")
@@ -256,7 +265,7 @@ def stateUpdate():
         runOnce = True
 
     while running:
-        monitor = [list(each.keys())[0] for each in get_desktop()]
+        monitor = [list(each.keys())[0].rstrip() for each in get_desktop()]
 
         if TPClient.choiceUpdateList.get("KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays") != monitor:
             TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays", monitor)
@@ -265,7 +274,7 @@ def stateUpdate():
 
         if TPClient.choiceUpdateList.get("KillerBOSS.TP.Plugins.WindowMover.customMove.Window") != (processWindow := list_windows()):
             TPClient.choiceUpdate("KillerBOSS.TP.Plugins.WindowMover.customMove.Window", processWindow)
-            print("Updating process list")
+            print("Updating process list", processWindow)
 
         try:
             currentFocusedWindow = gw.getActiveWindowTitle()
@@ -418,12 +427,12 @@ def Onconnect(data):
 @TPClient.on(TYPES.onShutdown)
 def Shutdown(data):
     global running
+    running = False
     try:
         TPClient.settingUpdate("Is Running","False")
     except:
         pass
     TPClient.disconnect()
-    running = False
     sys.exit()
 
 TPClient.connect()
