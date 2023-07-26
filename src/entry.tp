@@ -366,7 +366,7 @@
             {
               "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.Window",
               "label": "Window",
-              "type": "test",
+              "type": "text",
               "default": ""
             },
             {
