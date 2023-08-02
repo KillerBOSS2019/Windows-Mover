@@ -1,506 +1,19 @@
 {
   "sdk": 3,
-  "version": 2100,
+  "version": 3000,
   "name": "Windows Mover",
   "id": "WindowMover",
   "configuration": {
     "colorDark": "#222423",
     "colorLight": "#020202"
   },
-  "settings": [
-	{
-      "name": "Build by",
-      "type": "text",
-      "default": "Killer_BOSS",
-      "readOnly": true
-    },
-	{
-      "name": "Version",
-      "type": "text",
-      "default": "0",
-      "readOnly": true
-    },
-    {
-      "name": "Is Running",
-      "type": "text",
-      "default": "False",
-      "readOnly": true
-    }
-  ],
   "plugin_start_cmd": "%TP_PLUGIN_FOLDER%Window-Mover\\StartWinMover.bat",
   "categories": [
     {
-      "id": "Main",
+      "id": "main",
       "name": "Window Mover",
       "imagepath": "%TP_PLUGIN_FOLDER%Window-Mover\\icon.png",
-      "actions": [
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets",
-          "name": "Window Mover: Simple Move Window by presets",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Move {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} on Display:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays$} to {$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Presets$} Allow Resize:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.AllowResize$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Presets",
-              "type": "choice",
-              "label": "choice",
-              "default": "Top Left",
-              "valueChoices": [
-                "Top Left",
-                "Top Right",
-                "Top Middle",
-                "Bottom Left",
-                "Bottom Right",
-                "Bottom Middle",
-                "Left Middle",
-                "Right Middle",
-                "Center"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.AllowResize",
-              "type": "choice",
-              "label": "choice",
-              "default": "True",
-              "valueChoices": [
-                "True",
-                "False"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY",
-          "name": "Window Mover: Simple Increase X, Y",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} by X:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.X$} and Y:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Y$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.X",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Y",
-              "label": "Move By Y",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Choice",
-              "label": "Update Choice",
-              "type": "choice",
-              "default": "Increase",
-              "valueChoices": [
-                "Increase",
-                "Decrease"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo",
-          "name": "Window Mover: Simple Resize Window",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Set {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} Size to width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.width$} and height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.width",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 400
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.height",
-              "label": "Move By Y",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 400
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease",
-          "name": "Window Mover: Simple Resize Increase Width, hight",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.In&Decre$}Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$}by Width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.In&Decre",
-              "type": "choice",
-              "label": "choice",
-              "default": "Increase",
-              "valueChoices": [
-                "Increase",
-                "Decrease"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.width",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.height",
-              "label": "Move By Y",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions",
-          "name": "Window Mover: Simple focus, restore, minimize, and restore",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Choice",
-              "type": "choice",
-              "label": "choice",
-              "default": "maximize",
-              "valueChoices": [
-                "maximize",
-                "minimize",
-                "restore",
-                "focus",
-                "close"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.customMove",
-          "name": "Window Mover: Simple Move Window by current data",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Load {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} with X:{$KillerBOSS.TP.Plugins.WindowMover.customMove.X$}Y:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Y$}Width:{$KillerBOSS.TP.Plugins.WindowMover.customMove.width$}height:{$KillerBOSS.TP.Plugins.WindowMover.customMove.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
-              "label": "Window",
-              "type": "choice",
-              "default": "",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.X",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Y",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.width",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.height",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpresets",
-          "name": "Window Mover: Advanced Move Window by presets",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Move {$KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpreset.Window$} on Display:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays$} to {$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Presets$} Allow Resize:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.AllowResize$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Presets",
-              "type": "choice",
-              "label": "choice",
-              "default": "Top Left",
-              "valueChoices": [
-                "Top Left",
-                "Top Right",
-                "Bottom Left",
-                "Bottom Right"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpreset.Window",
-              "label": "Window",
-              "type": "text",
-              "default": ""
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays",
-              "type": "choice",
-              "label": "choice",
-              "valueChoices": []
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.AllowResize",
-              "type": "choice",
-              "label": "choice",
-              "default": "True",
-              "valueChoices": [
-                "True",
-                "False"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.MoveByXandY",
-          "name": "Window Mover: Advanced  Increase X, Y",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Window$} by X:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.X$} and Y:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Y$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Window",
-              "label": "Window",
-              "type": "text",
-              "default": ""
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.X",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Y",
-              "label": "Move By Y",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Choice",
-              "label": "Update Choice",
-              "type": "choice",
-              "default": "Increase",
-              "valueChoices": [
-                "Increase",
-                "Decrease"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced",
-          "name": "Window Mover: Advanced Resize Window",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Set {$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.Window$} width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.Window",
-              "label": "Window",
-              "type": "test",
-              "default": ""
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.width",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 400
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.height",
-              "label": "Move By Y",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 400
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced",
-          "name": "Window Mover: Advanced Resize Increase Width, hight",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "hasHoldFunctionality": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.In&Decre$}Window:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.Window$}by Width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.In&Decre",
-              "type": "choice",
-              "label": "choice",
-              "default": "Increase",
-              "valueChoices": [
-                "Increase",
-                "Decrease"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.Window",
-              "label": "Window",
-              "type": "text",
-              "default": ""
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.width",
-              "label": "Move By X",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.height",
-              "label": "Increase height",
-              "type": "number",
-              "allowDecimals": false,
-              "default": 1
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced",
-          "name": "Window Mover: Advanced focus, restore, minimize, and restore",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Window$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Choice",
-              "type": "choice",
-              "label": "choice",
-              "default": "maximize",
-              "valueChoices": [
-                "maximize",
-                "minimize",
-                "restore",
-                "focus",
-                "close"
-              ]
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Window",
-              "label": "Window",
-              "type": "text",
-              "default": ""
-            }
-          ]
-        },
-        {
-          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.customMove",
-          "name": "Window Mover: Advanced Move Window by current data",
-          "prefix": "plugin",
-          "type": "communicate",
-          "tryInline": true,
-          "format": "Load {$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Window$} with X:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.X$}Y:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Y$}Width:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.width$}height:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.height$}",
-          "data": [
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Window",
-              "label": "Window",
-              "type": "text",
-              "default": ""
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.X",
-              "type": "number",
-              "label": "choice",
-              "default": 0,
-              "allowDecimals": false
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Y",
-              "type": "number",
-              "label": "choice",
-              "default": 0,
-              "allowDecimals": false
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.width",
-              "type": "number",
-              "label": "choice",
-              "default": 0,
-              "allowDecimals": false
-            },
-            {
-              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.height",
-              "type": "number",
-              "label": "choice",
-              "default": 0,
-              "allowDecimals": false
-            }
-          ]
-        }
-      ],
-      "events": [],
+      "actions": [],
       "states": [
         {
           "id": "KillerBOSS.TP.Plugins.WindowMover.states.ActiveWindow",
@@ -550,7 +63,521 @@
           "desc": "Window Mover: is Current Window Active",
           "default": "False"
         }
-      ]
+      ],
+      "events": []
+    },
+    {
+      "id": "Simple",
+      "name": "Window Mover - Simple",
+      "imagepath": "%TP_PLUGIN_FOLDER%Window-Mover\\icon.png",
+      "actions": [
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets",
+          "name": "Window Mover: Simple Move Window by presets",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Move {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} on Display:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays$} to {$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Presets$} Allow Resize:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.AllowResize$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Presets",
+              "type": "choice",
+              "label": "choice",
+              "default": "Top Left",
+              "valueChoices": [
+                "Top Left",
+                "Top Right",
+                "Top Middle",
+                "Bottom Left",
+                "Bottom Right",
+                "Bottom Middle",
+                "Top Half",
+                "Bottom Half",
+                "Left Half",
+                "Right Half",
+                "Left Middle",
+                "Right Middle",
+                "Center"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Displays",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.AllowResize",
+              "type": "choice",
+              "label": "choice",
+              "default": "True",
+              "valueChoices": [
+                "True",
+                "False"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY",
+          "name": "Window Mover: Simple Increase X, Y",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} by X:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.X$} and Y:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Y$}",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.X",
+              "type": "number",
+              "label": "Move By X",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Y",
+              "type": "number",
+              "label": "Move By Y",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Choice",
+              "type": "choice",
+              "label": "Update Choice",
+              "default": "Increase",
+              "valueChoices": [
+                "Increase",
+                "Decrease"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo",
+          "name": "Window Mover: Simple Resize Window",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Set {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} Size to width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.width$} and height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.height$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.width",
+              "type": "number",
+              "label": "Move By X",
+              "default": 400,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.height",
+              "type": "number",
+              "label": "Move By Y",
+              "default": 400,
+              "allowDecimals": false
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease",
+          "name": "Window Mover: Simple Resize Increase Width, Height",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.In&Decre$}Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$}by Width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.height$}",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.In&Decre",
+              "type": "choice",
+              "label": "choice",
+              "default": "Increase",
+              "valueChoices": [
+                "Increase",
+                "Decrease"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.width",
+              "type": "number",
+              "label": "Move By X",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.height",
+              "type": "number",
+              "label": "Move By Y",
+              "default": 1,
+              "allowDecimals": false
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions",
+          "name": "Window Mover: Simple focus, restore, minimize, and restore",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Choice",
+              "type": "choice",
+              "label": "choice",
+              "default": "maximize",
+              "valueChoices": [
+                "maximize",
+                "minimize",
+                "restore",
+                "focus",
+                "close"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.customMove",
+          "name": "Window Mover: Simple Move Window by current data",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Load {$KillerBOSS.TP.Plugins.WindowMover.customMove.Window$} with X:{$KillerBOSS.TP.Plugins.WindowMover.customMove.X$}Y:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Y$}Width:{$KillerBOSS.TP.Plugins.WindowMover.customMove.width$}height:{$KillerBOSS.TP.Plugins.WindowMover.customMove.height$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Window",
+              "type": "choice",
+              "label": "Window",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.X",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Y",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.width",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.height",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            }
+          ]
+        }
+      ],
+      "states": [],
+      "events": []
+    },
+    {
+      "id": "Advanced",
+      "name": "Window Mover - Advanced",
+      "imagepath": "%TP_PLUGIN_FOLDER%Window-Mover\\icon.png",
+      "actions": [
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpresets",
+          "name": "Window Mover: Advanced Move Window by presets",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Move {$KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpreset.Window$} on Display:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays$} to {$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Presets$} Allow Resize:{$KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.AllowResize$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Presets",
+              "type": "choice",
+              "label": "choice",
+              "default": "Top Left",
+              "valueChoices": [
+                "Top Left",
+                "Top Right",
+                "Bottom Left",
+                "Bottom Right"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.Windowpreset.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.Displays",
+              "type": "choice",
+              "label": "choice",
+              "default": "",
+              "valueChoices": []
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.Windowpresets.Advanced.AllowResize",
+              "type": "choice",
+              "label": "choice",
+              "default": "True",
+              "valueChoices": [
+                "True",
+                "False"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.MoveByXandY",
+          "name": "Window Mover: Advanced  Increase X, Y",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Window$} by X:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.X$} and Y:{$KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Y$}",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.X",
+              "type": "number",
+              "label": "Move By X",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Y",
+              "type": "number",
+              "label": "Move By Y",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.MoveByXandY.Advanced.Choice",
+              "type": "choice",
+              "label": "Update Choice",
+              "default": "Increase",
+              "valueChoices": [
+                "Increase",
+                "Decrease"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced",
+          "name": "Window Mover: Advanced Resize Window",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Set {$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.Window$} width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.height$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.width",
+              "type": "number",
+              "label": "Move By X",
+              "default": 400,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeTo.Advanced.height",
+              "type": "number",
+              "label": "Move By Y",
+              "default": 400,
+              "allowDecimals": false
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced",
+          "name": "Window Mover: Advanced Resize Increase Width, hight",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.In&Decre$}Window:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.Window$}by Width:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.width$} and Height:{$KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.height$}",
+          "tryInline": true,
+          "hasHoldFunctionality": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.In&Decre",
+              "type": "choice",
+              "label": "choice",
+              "default": "Increase",
+              "valueChoices": [
+                "Increase",
+                "Decrease"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.width",
+              "type": "number",
+              "label": "Move By X",
+              "default": 1,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.ResizeIncrease.Advanced.height",
+              "type": "number",
+              "label": "Increase height",
+              "default": 1,
+              "allowDecimals": false
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced",
+          "name": "Window Mover: Advanced focus, restore, minimize, and restore",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Choice$} Window:{$KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Window$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Choice",
+              "type": "choice",
+              "label": "choice",
+              "default": "maximize",
+              "valueChoices": [
+                "maximize",
+                "minimize",
+                "restore",
+                "focus",
+                "close"
+              ]
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.SysActions.Advanced.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            }
+          ]
+        },
+        {
+          "id": "KillerBOSS.TP.Plugins.WindowMover.Advanced.customMove",
+          "name": "Window Mover: Advanced Move Window by current data",
+          "prefix": "plugin",
+          "type": "communicate",
+          "format": "Load {$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Window$} with X:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.X$}Y:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Y$}Width:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.width$}height:{$KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.height$}",
+          "tryInline": true,
+          "data": [
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Window",
+              "type": "text",
+              "label": "Window",
+              "default": ""
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.X",
+              "type": "number",
+              "label": "choice",
+              "default": 0,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.Y",
+              "type": "number",
+              "label": "choice",
+              "default": 0,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.width",
+              "type": "number",
+              "label": "choice",
+              "default": 0,
+              "allowDecimals": false
+            },
+            {
+              "id": "KillerBOSS.TP.Plugins.WindowMover.customMove.Advanced.height",
+              "type": "number",
+              "label": "choice",
+              "default": 0,
+              "allowDecimals": false
+            }
+          ]
+        }
+      ],
+      "states": [],
+      "events": []
+    }
+  ],
+  "settings": [
+    {
+      "name": "Build by",
+      "type": "text",
+      "default": "Killer_BOSS",
+      "readOnly": true
+    },
+    {
+      "name": "Version",
+      "type": "text",
+      "default": "0",
+      "readOnly": true
+    },
+    {
+      "name": "Is Running",
+      "type": "text",
+      "default": "False",
+      "readOnly": false
     }
   ]
 }
