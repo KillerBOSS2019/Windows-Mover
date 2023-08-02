@@ -1,2 +1,4 @@
-
 *.tpp
+.env
+*.pyc
+*.tp
